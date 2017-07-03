@@ -15,6 +15,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var spinnyNode : SKShapeNode?
 
     var bird = SKSpriteNode()
+    var sky = SKNode()
     var ground = SKNode()
     var background = SKSpriteNode()
     var gameOver = false
@@ -135,6 +136,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ground.physicsBody!.categoryBitMask = ColliderType.Object.rawValue
         ground.physicsBody!.collisionBitMask = ColliderType.Bird.rawValue
         self.addChild(ground)
+        // sky
+        sky.position = CGPoint(x: self.frame.midX, y: self.frame.height / 2)
+        sky.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.frame.width, height: 1))
+        sky.physicsBody!.isDynamic = false;
+        sky.physicsBody!.contactTestBitMask = ColliderType.Bird.rawValue
+        sky.physicsBody!.categoryBitMask = ColliderType.Object.rawValue
+        sky.physicsBody!.collisionBitMask = ColliderType.Bird.rawValue
+        self.addChild(sky)
         
         self.speed = 1
         gameOver = false
