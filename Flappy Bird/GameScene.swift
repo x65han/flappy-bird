@@ -21,6 +21,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var gameOver = false
     var gameStart = false
     var timer = Timer()
+    var handling = false
     var gameOverLabel = SKLabelNode()
     var scoreLabel = SKLabelNode()
     var score = 0
@@ -72,20 +73,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     func didBegin(_ contact: SKPhysicsContact) {
-//        contact.bodyB.contactTestBitMask = ColliderType.Bird.rawValue
-//        contact.bodyB.categoryBitMask = ColliderType.Object.rawValue
-//        contact.bodyB.collisionBitMask = ColliderType.Bird.rawValue
-//        contact.bodyB.applyImpulse(CGVector(dx: 2, dy: 50))
-//        ground.physicsBody = nil
         if contact.bodyA.categoryBitMask == ColliderType.Gap.rawValue || contact.bodyB.categoryBitMask == ColliderType.Gap.rawValue {
-            score += 1
-            scoreLabel.text = String(score)
+            if !gameOver {
+                score += 1
+                scoreLabel.text = String(score)
+            }
         } else {
             self.speed = 0
             gameOver = true
             print("Game Over")
             timer.invalidate()
-            gameOverLabel.text = "Game over! Tap to play again"
+            gameOverLabel.text = "Score: " + String(score)
+            if !handling {
+                handling = true
+                _ = setTimeout(delay: 2, block: { () -> Void in
+                    self.gameOverLabel.text = "Game over! Tap to play again!"
+                })
+            }
         }
     }
     
@@ -178,13 +182,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             bird.physicsBody!.velocity = CGVector(dx: 0, dy: 0)
             bird.physicsBody!.applyImpulse(CGVector(dx: 0, dy: 50))
         } else {
-            self.removeAllChildren()
-            setup()
+            if ("Game over! Tap to play again!" == gameOverLabel.text) {
+                handling = false
+                self.removeAllChildren()
+                setup()
+            }
         }
     }
 
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
 
+    }
+    func setTimeout(delay:TimeInterval, block:@escaping ()->Void) -> Timer {
+        return Timer.scheduledTimer(timeInterval: delay, target: BlockOperation(block: block), selector: #selector(Operation.main), userInfo: nil, repeats: false)
     }
 }
