@@ -153,6 +153,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         gameOverLabel.fontSize = 30
         gameOverLabel.text = "Tap anywhere to begin"
         gameOverLabel.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 70)
+        gameOverLabel.zPosition = 2
         self.addChild(gameOverLabel)
         
         scoreLabel.fontName = "Helvetica"
@@ -160,6 +161,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         score = 0
         scoreLabel.text = String(score)
         scoreLabel.position = CGPoint(x: self.frame.midX, y: self.frame.height / 2 - 70)
+        scoreLabel.zPosition = 2
         self.addChild(scoreLabel)
     }
 
