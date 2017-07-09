@@ -1,3 +1,3 @@
-# flappy-brid clone
+# Flappy-bird Clone - iOS Swift
 
-Made with Swift
+- Made with Swift + iOS GameSprite
