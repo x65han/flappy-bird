@@ -2,4 +2,4 @@
 
 - Made with Swift + iOS GameSprite
 
-![Alt Text](https://j.gifs.com/ElzOBY.gif)
+![Game Preview](https://j.gifs.com/ElzOBY.gif)
